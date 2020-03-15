@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Code Quiz</title>
+    <link rel="stylesheet" href="./codequiz.css">
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <header class="code-quiz-header">
+      <div class="row">
+        <div class="col-md-4"><h2>View Highscores</h2></div>
+        <div class="col-md-4"></div>
+        <div class="col-md-4"><p>Time: <span id="time-count">0</span></p></div>
+      </div>
+    </header>
+    <main class="code-quiz-main">
+      <!--<form id="code-quiz-form" method="POST">-->
+        <div class="row">
+          <div class="col-md-4"></div>
+          <div class="col-md-4">
+            <ul id="answer-options">High Scores</ul>
+          </div>
+          <div class="col-md-4"></div>
+        </div>
+        <div class="row">
+          <div class="col-md-4"></div>
+          <div id="resultDiv" class="col-md-4">
+            <hr class="bold-gray" />
+            <p id="result"></p>
+          </div>
+          <div class="col-md-4"></div>
+        </div>
+      <!--</form>-->
+    </main>
+    <script src="./codequiz.js"></script>
+  </body>
+</html>
