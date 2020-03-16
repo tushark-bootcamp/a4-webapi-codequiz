@@ -4,39 +4,102 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Code Quiz</title>
-    <link rel="stylesheet" href="./codequiz.css">
+
     <link
       rel="stylesheet"
       href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
       integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
       crossorigin="anonymous"
     />
+    <link rel="stylesheet" href="./codequiz.css" />
   </head>
   <body>
     <header class="code-quiz-header">
       <div class="row">
         <div class="col-md-4"><h2>View Highscores</h2></div>
         <div class="col-md-4"></div>
-        <div class="col-md-4"><p>Time: <span id="time-count">0</span></p></div>
+        <div class="col-md-4">
+          <p>Time: <span id="time-count">0</span></p>
+        </div>
       </div>
     </header>
     <main class="code-quiz-main">
       <!--<form id="code-quiz-form" method="POST">-->
-        <div class="row">
-          <div class="col-md-4"></div>
-          <div class="col-md-4">
-            <ul id="quiz-question">High Scores</ul>
+      <div class="row">
+        <div class="col-md-4"></div>
+        <!--The main-page div will be toggled with the quiz page once the start quiz button is clicked by the user-->
+        <div id="main-page" class="col-md-4">
+          <div id="opening-page">
+            <h2 id="main-header">Coding quiz challenge</h2>
+            <p id="main-desc">
+              Try to answer following code related questions within the time
+              limit. Keep in mind that an incorrect answer will penalise your
+              score time by 10 seconds
+            </p>
+            <button id="btn-start-quiz" class="btn btn-secondary btn-sm">
+              Start Quiz
+            </button>
           </div>
-          <div class="col-md-4"></div>
-        </div>
-        <div class="row">
-          <div class="col-md-4"></div>
-          <div id="resultDiv" class="col-md-4">
-            <hr class="bold-gray" />
-            <p id="result"></p>
+          <!--The quiz page div is hidden initially-->
+          <div id="quiz-page">
+            <ul id="quiz-question"></ul>
           </div>
-          <div class="col-md-4"></div>
+          <div id="closing-page">
+            <h2 id="closing-header">All Done!</h2>
+            <div id="view-final-score">
+              <p>Your score is <span id="score"></span></p>
+            </div>
+            <div id="input-name">
+              <div class="row">
+                <div class="col-md-8">
+                  <input
+                    id="txt-user-name"
+                    type="text"
+                    class="form-control float-left"
+                    placeholder="Enter name"
+                    aria-label="Enter name"
+                    aria-describedby="basic-addon2"
+                  />
+                </div>
+                <div class="col-md-4">
+                  <button
+                    id="btn-submit-name"
+                    class="btn btn-secondary btn-sm float-right"
+                  >
+                    Submit Name
+                  </button>
+                </div>
+                <!--<div class="input-group-append">
+              <span class="input-group-text" id="basic-addon2">Submit</span>
+            </div>-->
+              </div>
+            </div>
+            <div id="view-name">
+              <p id="show-name"></p>
+            </div>
+            <div id="reset-button-panel">
+              <button id="go-back" class="btn btn-secondary btn-sm float-left">
+                Go Back
+              </button>
+              <button
+                id="clear-score"
+                class="btn btn-secondary btn-sm float-left"
+              >
+                Clear Highscores
+              </button>
+            </div>
+          </div>
         </div>
+        <div class="col-md-4"></div>
+      </div>
+      <div class="row">
+        <div class="col-md-4"></div>
+        <div id="resultDiv" class="col-md-4">
+          <hr class="bold-gray" />
+          <p id="result"></p>
+        </div>
+        <div class="col-md-4"></div>
+      </div>
       <!--</form>-->
     </main>
     <script src="./codequiz.js"></script>

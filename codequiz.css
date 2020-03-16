@@ -32,6 +32,23 @@ hr.bold-gray {
   border-radius: 1px;
 }
 
-#resultDiv {
+/*The below div ids will initially be hidden*/
+#resultDiv, #quiz-page, #closing-page, #view-name{
   display: none;
+} 
+
+/*The float left class to align buttons to */
+.float-left {
+  float: left;
+  margin-right: 30px;
 }
+
+/*Create right margin to leave space between the input field and the submit button*/
+.form-control {
+  margin-right: 30px;
+}
+
+#submit-name {
+  width: 98px;
+}
+

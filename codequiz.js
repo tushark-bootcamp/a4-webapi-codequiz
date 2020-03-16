@@ -1,18 +1,27 @@
+var btnStartQuiz = document.querySelector("#btn-start-quiz");
+var openingPage = document.querySelector("#opening-page");
+var quizPage = document.querySelector("#quiz-page");
 var quizQuestionUL = document.querySelector("#quiz-question");
+var closingPage = document.querySelector("#closing-page");
+var showScore = document.querySelector("#score");
 var codeQuizForm = document.querySelector("#code-quiz-form");
 var resultPara = document.querySelector("#result");
 var resultDiv = document.querySelector("#resultDiv");
-//var lastQuestionAnswered
+var resetButtonPanel = document.querySelector("#reset-button-panel");
+var btnSubmitName = document.querySelector("#btn-submit-name");
+var txtUserName = document.querySelector("#txt-user-name");
+
+var viewFinalScorePanel = document.querySelector("#view-final-score");
+
+var viewNamePanel = document.querySelector("#view-name");
+var showUserName = document.querySelector("#show-name");
+var inputNamePanel = document.querySelector("#input-name");
+
+var btnGoBack = document.querySelector("#go-back");
+var btnClearScore = document.querySelector("#clear-score");
+
 
 var score = 0;
-//var startQuizButton = null;
-
-var stateMachine = {
-    quizInitiated: false,
-    displayingScore: false,
-    quizIndex: 0
-}
-
 var quizQuestionBank = [
     {
         quizIndex: 0,
@@ -53,80 +62,17 @@ var quizQuestionBank = [
     }
 ];
 
-initiateQuiz();
-
-// This function initiates the start of taking quiz. Adds start quiz button with an action listener
-function initiateQuiz() {
-    var li = document.createElement("li");
-    //li.textContent = todo;
-
-    var startQuizButton = document.createElement("button");
-    startQuizButton.classList.add("btn", "btn-secondary", "btn-sm");
-    startQuizButton.textContent = "Start Quiz";
-
-    //startQuizButton.setAttribute("quiz-index", 0);
-    startQuizButton.setAttribute("id", "start-quiz");
-    li.appendChild(startQuizButton);
-    quizQuestionUL.appendChild(li);
-    stateMachine.quizInitiated = true;
-}
-
-quizQuestionUL.addEventListener("click", function (event) {
-    //alert("quizQuestionUL.click");
-    var eventSource = event.target;
-    if (eventSource.matches("button")) {
-        //alert("stateMachine.quizIndex: " + stateMachine.quizIndex);
-        if (eventSource.getAttribute("id") == "start-quiz") {
-            renderNextQuiz(0);
-        } else if (eventSource.getAttribute("id") == "quiz-question") {
-            var quizInd = eventSource.getAttribute("quiz-index");
-            var userAnswerInd = eventSource.getAttribute("answer-index");
-            if (quizInd < quizQuestionBank.length - 1) {
-                var answeredCorrectly = false;
-                if (userAnswerInd == quizQuestionBank[quizBankInd].correctIndex) {
-                    answeredCorrectly = true;
-                }
-                displayAnswer(answeredCorrectly, quizBankInd);
-                if ((stateMachine.quizIndex < quizQuestionBank.length)) {
-                    setTimeout(renderNextQuiz, 1500);
-                }
-
-            }
-        }
-        if (stateMachine.quizIndex == 0) {
-            //alert("stateMachine.quizIndex: " + stateMachine.quizIndex);
-            renderNextQuiz();
-        } else if (stateMachine.quizIndex <= quizQuestionBank.length) {
-            //alert("stateMachine.quizIndex: " + stateMachine.quizIndex);
-            // When stateMachine.quizIndex > 0, the event source is the answer button chosen by the user
-            var userAnswerInd = eventSource.getAttribute("answer-index");
-            //alert("answerInd: " + answerInd);
-            //alert("quizQuestionBank[stateMachine.quizIndex].correctIndex: " + quizQuestionBank[stateMachine.quizIndex].correctIndex);
-            var quizBankInd = 0;
-            if (stateMachine.quizIndex == quizQuestionBank.length) {
-                quizBankInd = quizQuestionBank.length - 1;
-            } else {
-                quizBankInd = stateMachine.quizIndex;
-            }
-            var answeredCorrectly = false;
-            if (userAnswerInd == quizQuestionBank[quizBankInd].correctIndex) {
-                answeredCorrectly = true;
-            }
-            displayAnswer(answeredCorrectly, quizBankInd);
-            if ((stateMachine.quizIndex < quizQuestionBank.length)) {
-                setTimeout(renderNextQuiz, 1500);
-            }
-        } else {
-            alert("All questions answered");
-        }
-    }
+btnStartQuiz.addEventListener("click", function (event) {
+    openingPage.style.display = "none";
+    quizPage.style.display = "block";
+    renderNextQuiz(0);
 });
 
+// The caller of this function first works out the index of the quiz @ quizQuestionUL.getAttribute("quiz-index", quizIndex);
 function renderNextQuiz(quizIndex) {
-    //var index = stateMachine.quizIndex;
-    //alert("stateMachine.quizIndex: " + stateMachine.quizIndex);
+    //alert("quizIndex: " + parseInt(quizIndex));
     resultDiv.style.display = "none";
-    var quiz = quizQuestionBank[quizIndex];
+    var quiz = quizQuestionBank[parseInt(quizIndex)];
     var question = quiz.question;
     //alert("question: " + question);
     var answerOptions = quiz.answers;
@@ -146,114 +92,106 @@ function renderNextQuiz(quizIndex) {
         liOptions.appendChild(answerButton);
         quizQuestionUL.appendChild(liOptions);
     }
-    // Only increment quizIndex until it reaches the length - 1 of the Array of quizbank
-    if (stateMachine.quizIndex < quizQuestionBank.length) {
-        stateMachine.quizIndex++;
-    }
 }
 
-function renderNextQuiz(quizInd) {
-    //var index = stateMachine.quizIndex;
-    //alert("stateMachine.quizIndex: " + stateMachine.quizIndex);
-    resultDiv.style.display = "none";
-    var quiz = quizQuestionBank[stateMachine.quizIndex];
-    var question = quiz.question;
-    //alert("question: " + question);
-    var answerOptions = quiz.answers;
-    quizQuestionUL.textContent = question;
-    quizQuestionUL.setAttribute("quiz-index", quiz.quizIndex);
-    for (var i = 0; i < answerOptions.length; i++) {
-        var answerI = answerOptions[i];
-        //alert("answerI: " + answerI);
-        var liOptions = document.createElement("li");
-        var answerButton = document.createElement("button");
-        answerButton.classList.add("btn", "btn-secondary", "btn-sm");
-        answerButton.textContent = answerI;
-
-        answerButton.setAttribute("answer-index", i);
-        //answerButton.setAttribute("quiz-index", index);
-
-        liOptions.appendChild(answerButton);
-        quizQuestionUL.appendChild(liOptions);
+quizQuestionUL.addEventListener("click", function (event) {
+    var eventSource = event.target;
+    if (eventSource.matches("button")) {
+        var currentQuizInd = parseInt(eventSource.getAttribute("quiz-index"));
+        var userAnswerInd = parseInt(eventSource.getAttribute("answer-index"));
+        if (currentQuizInd < quizQuestionBank.length) {
+            var answeredCorrectly = false;
+            if (userAnswerInd == quizQuestionBank[currentQuizInd].correctIndex) {
+                answeredCorrectly = true;
+                // The below tactic ensures multiple clicks on the button does not yield more score
+                quizQuestionBank[currentQuizInd].score = 1;
+            } else {
+                quizQuestionBank[currentQuizInd].score = 0;
+            }
+            displayAnswer(answeredCorrectly);
+            // Call renderNextQuiz function until you reach the last question which is quizQuestionBank.length - 1 
+            if ((currentQuizInd < quizQuestionBank.length - 1)) {
+                setTimeout(function () {
+                    renderNextQuiz(currentQuizInd + 1);
+                }, 1500);
+            } else {
+                setTimeout(renderResultsPage, 1500);
+            }
+        }
+        //}
     }
-    // Only increment quizIndex until it reaches the length - 1 of the Array of quizbank
-    if (stateMachine.quizIndex < quizQuestionBank.length) {
-        stateMachine.quizIndex++;
-    }
-}
+});
 
-
-
-
-function displayAnswer(result, quizBankInd) {
+// Shows the results panel and displays whether the user has clicked correct answer
+function displayAnswer(result) {
     resultDiv.style.display = "block";
     var answer = "Correct!!";
     if (!result) {
         answer = "Wrong!!";
-    } else {
-        quizQuestionBank[quizBankInd].score = 1;
     }
     resultPara.textContent = answer;
 }
 
-function displayResult() {
-
+// Hides quiz panel and displays results panel.
+// Calculates the final score and displays it
+function renderResultsPage() {
+    quizPage.style.display = "none";
+    resultDiv.style.display = "none";
+    resetButtonPanel.style.display = "none";
+    viewFinalScorePanel.style.display = "block";
+    if (inputNamePanel.style.display == "none") {
+        inputNamePanel.style.display = "block";
+    }
+    closingPage.style.display = "block";
+    calculateScore();
+    showScore.textContent = score;
 }
 
-
-
-/*function startQuiz(quizIndex) {
-    var eventSource = event.target;
-    if (eventSource.matches("button")) {
-        var quizNo = eventSource.getAttribute("quiz-index");
-        alert("quizNo: " + quizNo);
-        renderQuiz(quizIndex);
-    }
-}*/
-
-/*renderQuizAnswer(answer) {
-    var li = document.createElement("li");
-    li.textContent = answer;
-    quizQuestion.appendChild(li);
-}*/
-
-/* We will listen to the click event on the entire answerOptions<UL> object instead.
-codeQuizForm.addEventListener("submit", function (event) {
-    //event.preventDefault();
-    alert("codeQuizForm form submit");
-    takeQuiz(event);
-});
-
-
-quizQuestionUL.addEventListener("click", function (event) {
-    alert("quizQuestionUL.click");
-    var eventSource = event.target;
-    if (eventSource.matches("button")) {
-        if(stateMachine.quizInitiated == false) {
-            initiateQuiz();
-        } else {
-            var quizNo = eventSource.getAttribute("quiz-index");
-            renderNextQuiz(quizIndex);
-        }
-    }
-});
-
-function pause(ms) {
-    var snapshot = new Date().getMilliseconds();
-    var now = new Date().getMilliseconds();
-    //alert("now: " + now);
-    //alert("snapshot: " + snapshot);
-    var shouldPause = ((now - snapshot) > ms);
-    //alert("shouldPause: " + shouldPause);
-    while (!shouldPause) {
-        now = new Date().getMilliseconds();
-        shouldPause = ((now - snapshot) > ms);
-        alert("inner now: " + now);
-        alert("inner snapshot: " + snapshot);
-        alert("inner shouldPause: " + shouldPause);
-        continue;
+// calculates the score by iterating through the array of quizbank
+function calculateScore() {
+    for (var i = 0; i < quizQuestionBank.length; i++) {
+        score += quizQuestionBank[i].score;
     }
 }
 
-*/
+btnSubmitName.addEventListener("click", function (event) {
+    submitInputName();
+});
 
+txtUserName.addEventListener("keyenter", function (event) {
+    submitInputName();
+});
+
+function submitInputName() {
+    var userName = txtUserName.value;
+    //alert("userName: " + userName);
+    viewFinalScorePanel.style.display = "none";
+    inputNamePanel.style.display = "none";
+    viewNamePanel.style.display = "block";
+    showUserName.textContent = userName + " Final score is: " + score;
+    resetButtonPanel.style.display = "block";
+}
+
+// Clear the score marked against each question and also clear the total score
+function clearHighScores() {
+    score = 0;
+    for (var i = 0; i < quizQuestionBank.length; i++) {
+        quizQuestionBank[i].score = 0;
+    }
+    showUserName.textContent = "";
+    txtUserName.value = "";
+}
+
+btnGoBack.addEventListener("click", function (event) {
+    clearHighScores();
+    viewNamePanel.style.display = "none";
+    closingPage.style.display = "none";
+    openingPage.style.display = "block";
+
+});
+
+//Clears the scores and removes the final score panel
+btnClearScore.addEventListener("click", function (event) {
+    clearHighScores();
+    viewNamePanel.style.display = "none";
+});
