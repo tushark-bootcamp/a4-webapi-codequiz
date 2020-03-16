@@ -10,6 +10,6 @@ The user is given 25 seconds to answer the quiz. This time can be altered by set
 For every wrong answer the time is reduced by 10 seconds.
 
 The screen shots of the web application:
-![Screenshot - 1](https://github.com/tushark-bootcamp/a3-password-generator/blob/master/pwd-generator-1.png)
-![Screenshot - 2](https://github.com/tushark-bootcamp/a3-password-generator/blob/master/pwd-generator-2.png)
+![Screenshot - 1](https://github.com/tushark-bootcamp/a4-webapi-codequiz/Javascript quiz-1.png)
+![Screenshot - 2](https://github.com/tushark-bootcamp/a4-webapi-codequiz/Javascript quiz-2.png)
 
