@@ -19,9 +19,12 @@ var inputNamePanel = document.querySelector("#input-name");
 
 var btnGoBack = document.querySelector("#go-back");
 var btnClearScore = document.querySelector("#clear-score");
+var timer = document.querySelector("#timer");
 
 
 var score = 0;
+
+// quizQuestionBank is the JSON object that holds all the questions, the options and the correct answer.  
 var quizQuestionBank = [
     {
         quizIndex: 0,
@@ -59,14 +62,52 @@ var quizQuestionBank = [
         correctAnswer: "d",
         correctIndex: 3,
         score: 0
+    },
+    {
+        quizIndex: 3,
+        question: "Which tool can you use as a code repository?",
+        answers: [
+            "a: GitHub",
+            "b: Confluence",
+            "c: JIRA"
+        ],
+        correctAnswer: "a",
+        correctIndex: 0,
+        score: 0
     }
 ];
+
+var seconds = 0;
+var x = "";
+var quizTimeSt = 25;
 
 btnStartQuiz.addEventListener("click", function (event) {
     openingPage.style.display = "none";
     quizPage.style.display = "block";
+    seconds = 0;
+    x = "";
     renderNextQuiz(0);
+    x = setInterval(function () {
+        runQuizTimer(quizTimeSt);
+    }, 1000);
 });
+
+function runQuizTimer(quizTime) {
+    // Update the count down every 1 second
+    // Get today's date and time
+    //var quizTime = new Date().getTime();
+    var timeRemaining = quizTime - seconds;
+    seconds += 1;
+
+    timer.textContent = timeRemaining;
+
+    // If the count down is over, Notify
+    if (timeRemaining <= 0) {
+        clearInterval(x);
+        timer.textContent = "EXPIRED";
+        renderResultsPage();
+    }
+}
 
 // The caller of this function first works out the index of the quiz @ quizQuestionUL.getAttribute("quiz-index", quizIndex);
 function renderNextQuiz(quizIndex) {
@@ -94,6 +135,7 @@ function renderNextQuiz(quizIndex) {
     }
 }
 
+// Uses event delegation to button object -- that way all the buttons need not be listening to the click event
 quizQuestionUL.addEventListener("click", function (event) {
     var eventSource = event.target;
     if (eventSource.matches("button")) {
@@ -128,6 +170,8 @@ function displayAnswer(result) {
     var answer = "Correct!!";
     if (!result) {
         answer = "Wrong!!";
+        // Reduce the time by 10 seconds when the answer is wrong
+        seconds += 10;
     }
     resultPara.textContent = answer;
 }
@@ -149,26 +193,31 @@ function renderResultsPage() {
 
 // calculates the score by iterating through the array of quizbank
 function calculateScore() {
+    //reset hte score
+    score = 0;
     for (var i = 0; i < quizQuestionBank.length; i++) {
         score += quizQuestionBank[i].score;
     }
 }
 
+// Listens to button click event to submit user name entered in the input field
 btnSubmitName.addEventListener("click", function (event) {
     submitInputName();
 });
 
-txtUserName.addEventListener("keyenter", function (event) {
+// Listens to key enter event to submit user name entered in the input field
+/*txtUserName.addEventListener("keyenter", function (event) {
     submitInputName();
-});
+});*/
 
+// Submits the input name and displays the final scores against the name provided
 function submitInputName() {
     var userName = txtUserName.value;
     //alert("userName: " + userName);
     viewFinalScorePanel.style.display = "none";
     inputNamePanel.style.display = "none";
     viewNamePanel.style.display = "block";
-    showUserName.textContent = userName + " Final score is: " + score;
+    showUserName.textContent = userName + " final score is: " + score;
     resetButtonPanel.style.display = "block";
 }
 
@@ -195,3 +244,5 @@ btnClearScore.addEventListener("click", function (event) {
     clearHighScores();
     viewNamePanel.style.display = "none";
 });
+
+
